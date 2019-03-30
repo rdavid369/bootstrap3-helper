@@ -1,17 +1,17 @@
-require 'dnr_bootstrap_helper/version'
+require 'bootstrap3_helper/version'
 
 # Implementation files
-require 'dnr_bootstrap_helper/component'
-require 'dnr_bootstrap_helper/accordion'
-require 'dnr_bootstrap_helper/accordion_group'
-require 'dnr_bootstrap_helper/alert'
-require 'dnr_bootstrap_helper/callout'
-require 'dnr_bootstrap_helper/panel'
-require 'dnr_bootstrap_helper/tabs'
-require 'dnr_bootstrap_helper/tabs/content'
-require 'dnr_bootstrap_helper/tabs/dropdown'
-require 'dnr_bootstrap_helper/tabs/menu'
-require 'dnr_bootstrap_helper/railtie'
+require 'bootstrap3_helper/component'
+require 'bootstrap3_helper/accordion'
+require 'bootstrap3_helper/accordion_group'
+require 'bootstrap3_helper/alert'
+require 'bootstrap3_helper/callout'
+require 'bootstrap3_helper/panel'
+require 'bootstrap3_helper/tabs'
+require 'bootstrap3_helper/tabs/content'
+require 'bootstrap3_helper/tabs/dropdown'
+require 'bootstrap3_helper/tabs/menu'
+require 'bootstrap3_helper/railtie'
 
 # @description
 # - This helper module includes UI helpers that will help generate
@@ -74,41 +74,6 @@ module Bootstrap3Helper
   def callout_helper(*args, &block)
     callout = Callout.new(self, *args, &block)
     callout
-  end
-
-  # @description
-  # - Allows you to set a breadcrumbs class variable.  It will use that variable
-  # to render out the contents of your breadcrumbs.
-  #
-  # <code>
-  #   @breadcrumbs = [
-  #     {
-  #       name: 'Home',
-  #       href: root_path
-  #     },
-  #     {
-  #       name: 'Category',
-  #       href: category_path
-  #     },
-  #     {
-  #       name: 'Sub Category',
-  #       href: sub_category_path
-  #     },
-  #   ]
-  # </code>
-  #
-  # @return [String]
-  #
-  def breadcrumbs
-    content_tag :ul, class: 'breadcrumbs' do
-      if @breadcrumbs.nil?
-        link_to 'Home', defined?(root_path) ? root_path : '/'
-      else
-        @breadcrumbs.collect do |item|
-          content_tag(:li) { item[:href].nil? ? item[:name] : link_to(item[:name], item[:href]) }
-        end.join.html_safe
-      end
-    end
   end
 
   # @description
