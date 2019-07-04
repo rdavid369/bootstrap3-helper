@@ -1,5 +1,3 @@
-require 'bootstrap3_helper'
-
 module Bootstrap3Helper
   # @description
   # - Used to tie into the ActionView

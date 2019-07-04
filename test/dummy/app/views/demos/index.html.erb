@@ -3,55 +3,139 @@
 #
 #
 %>
-
-<%= accordion_group_helper do |group| %>
-  <% group.accordion :primary do |accordion| %>
-      <%= accordion.header { "accordion 1" } %>
-      <%= accordion.body do %>
-          <p>This is accordion 1</p>
-      <% end %>
-  <%end %>
-  <% group.accordion :info do |accordion| %>
-      <%= accordion.header { "accordion 2" } %>
-      <%= accordion.body do %>
-          <p>This is accordion 2</p>
-      <% end %>
-  <%end %>
-  <% group.accordion :danger do |accordion| %>
-      <%= accordion.header { "accordion 3" } %>
-      <%= accordion.body do %>
-          <p>This is accordion 3</p>
-      <% end %>
-  <%end %>
-<% end %>
-
-<%= tabs_helper type: :pills do |menu, content| %>
-    <% menu.item(:testing1, class: 'active') { ' Testing 1' } %>
-    <% menu.item :testing2 %>
-    <% menu.item(:testing3) { ' Testing 3' } %>
-    <% menu.dropdown 'Testing Dropdown' do |dropdown| %>
-        <%= dropdown.item(:testing5 ) { 'Testing 5' } %>
-        <%= dropdown.item(:testing6 ) { 'Testing 6' } %>
-        <%= dropdown.item(:testing7 ) { 'Testing 7' } %>
-    <% end %>
+<h1 class="page-header">Accordions</h1>
+<div class="row">
+    <div class="col-xs-12">
+        <%= accordion_group_helper do |group| %>
+            <% group.accordion :primary do |accordion| %>
+                <%= accordion.header { "accordion 1" } %>
+                <%= accordion.body do %>
+                    <p>This is accordion 1</p>
+                <% end %>
+            <% end %>
+            <% group.accordion :info do |accordion| %>
+                <%= accordion.header { "accordion 2" } %>
+                <%= accordion.body do %>
+                    <p>This is accordion 2</p>
+                <% end %>
+            <% end %>
+            <% group.accordion :danger do |accordion| %>
+                <%= accordion.header { "accordion 3" } %>
+                <%= accordion.body do %>
+                    <p>This is accordion 3</p>
+                <% end %>
+            <% end %>
+        <% end %>
+    </div>
+</div>
 
 
-    <% content.item :testing1, class: 'active' do %>
-        Testing 1 content
-    <% end %>
-    <% content.item :testing2 do %>
-        Testing 2 content
-    <% end %>
-    <% content.item :testing3 do %>
-        Testing 3 content
-    <% end %>
-    <% content.item :testing5 do %>
-        Testing 5 content
-    <% end %>
-    <% content.item :testing6 do %>
-        Testing 6 content
-    <% end %>
-    <% content.item :testing7 do %>
-        Testing 7 content
-    <% end %>
-<% end %>
+<h1 class="page-header">Tabs - <em>Pills</em></h1>
+
+<div class="row">
+    <div class="col-xs-12">
+        <%= tabs_helper type: :pills do |menu, content| %>
+            <% menu.item(:testing1, class: 'active') { ' Testing 1' } %>
+            <% menu.item :testing2 %>
+            <% menu.item(:testing3) { ' Testing 3' } %>
+            <% menu.dropdown 'Testing Dropdown' do |dropdown| %>
+                <%= dropdown.item(:testing5 ) { 'Testing 5' } %>
+                <%= dropdown.item(:testing6 ) { 'Testing 6' } %>
+                <%= dropdown.item(:testing7 ) { 'Testing 7' } %>
+            <% end %>
+
+
+            <% content.item :testing1, class: 'active' do %>
+                Testing 1 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing2 do %>
+                Testing 2 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing3 do %>
+                Testing 3 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing5 do %>
+                Testing 5 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing6 do %>
+                Testing 6 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing7 do %>
+                Testing 7 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+<h1 class="page-header">Tabs - <em>Tabs</em></h1>
+
+<div class="row">
+    <div class="col-xs-12">
+        <%= tabs_helper type: :tabs do |menu, content| %>
+            <% menu.item(:testing1_2, class: 'active') { ' Testing 1' } %>
+            <% menu.item :testing2_2 %>
+            <% menu.item(:testing3_2) { ' Testing 3' } %>
+            <% menu.dropdown 'Testing Dropdown' do |dropdown| %>
+                <%= dropdown.item(:testing5_2 ) { 'Testing 5' } %>
+                <%= dropdown.item(:testing6_2 ) { 'Testing 6' } %>
+                <%= dropdown.item(:testing7_2 ) { 'Testing 7' } %>
+            <% end %>
+
+
+            <% content.item :testing1_2, class: 'active' do %>
+                Testing 1 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing2_2 do %>
+                Testing 2 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing3_2 do %>
+                Testing 3 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing5_2 do %>
+                Testing 5 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing6_2 do %>
+                Testing 6 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+            <% content.item :testing7_2 do %>
+                Testing 7 content - Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi exercitationem repellendus explicabo, 
+                eaque magnam error maxime, vel impedit esse culpa sit cumque ut temporibus aliquam mollitia debitis quidem, omnis delectus?
+                Ea quos aperiam inventore labore! Ut eveniet veniam numquam totam mollitia quidem iste odio reprehenderit aliquid hic ratione,
+                necessitatibus, aut, minima blanditiis ea maiores. Ipsum fuga nisi non dicta aliquid?
+            <% end %>
+        <% end %>
+    </div>
+</div>

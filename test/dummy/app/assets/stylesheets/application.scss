@@ -18,6 +18,10 @@
 @import "bootstrap";
 
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.tab-pane {
+  margin: 10px 5px 5px 10px;
 }
