@@ -1,4 +1,4 @@
-# Bootstrap3Helper
+# Bootstrap 3 Helper
 
 This gem was designed to help you rapidly build common Bootstrap 3 Components. They where designed to very flexible and reduce a lot of boiler plate HTML.
 
@@ -79,7 +79,7 @@ end
         <%= accordion.body do %>
             <p>This is accordion 1</p>
         <% end %>
-    <%end %>
+    <% end %>
     <% g.accordion :info do |accordion| %>
         <%= accordion.header { "Accordion 2" } %>
         <%= accordion.body do %>
@@ -91,7 +91,7 @@ end
         <%= accordion.body do %>
             <p>This is accordion 3</p>
         <% end %>
-    <%end %>
+    <% end %>
 <% end %>
 ```
 
@@ -99,7 +99,7 @@ end
 
 ---
 
-`Panel Helper`
+`Tab Helper`
 
 ```erb
 <%= tabs_helper type: :pills do |menu, content| %>
