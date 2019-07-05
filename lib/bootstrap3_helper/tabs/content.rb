@@ -40,10 +40,19 @@ module Bootstrap3Helper
       #   </code>
       #
       def item(name, args = {})
-        data  = args.fetch(:data, nil)
-        klass = args.fetch(:class, '')
+        data   = args.fetch(:data, nil)
+        klass  = args.fetch(:class, '')
+        active = klass.include? 'active'
 
-        content = content_tag :div, id: name, class: 'tab-pane ' + klass, data: data, role: 'tabpanel' do
+        content = content_tag(
+          :div,
+          id:       name,
+          class:    "tab-pane fade #{active ? 'in' : ''} #{klass}",
+          aria:     { hidden: active },
+          data:     data,
+          role:     'tabpanel',
+          tabindex: -1
+        ) do
           yield if block_given?
         end
 

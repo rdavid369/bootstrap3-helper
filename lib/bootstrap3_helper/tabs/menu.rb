@@ -50,19 +50,35 @@ module Bootstrap3Helper
       #     }
       #   </code>
       #
+      # rubocop:disable Metrics/MethodLength
       def item(name, args = {})
-        id    = args.fetch(:id, nil)
-        data  = args.fetch(:data, nil)
-        klass = args.fetch(:class, '')
+        id     = args.fetch(:id, nil)
+        data   = args.fetch(:data, nil)
+        klass  = args.fetch(:class, '')
+        active = klass.include? 'active'
 
-        li = content_tag :li, id: id, class: klass, data: data, role: 'presentation' do
-          content_tag :a, href: "##{name}", data: { toggle: 'tab' }, aria: { controls: '' } do
+        li = content_tag(
+          :li,
+          id:    id,
+          class: klass,
+          data:  data,
+          role:  'presentation'
+        ) do
+          content_tag(
+            :a,
+            href:     "##{name}",
+            role:     'tab',
+            tabindex: -1,
+            data:     { toggle: 'tab' },
+            aria:     { controls: "##{name}", expanded: active, selected: active }
+          ) do
             block_given? ? yield : name.to_s.titleize
           end
         end
 
         @items.push(li)
       end
+      # rubocop:enable Metrics/MethodLength
 
       # @description
       # - Used to create menu items that are Dropdowns
