@@ -44,19 +44,33 @@ module Bootstrap3Helper
       #     }
       #   </code>
       #
+      # rubocop:disable Metrics/MethodLength
       def item(name, args = {})
-        id    = args.fetch(:id, nil)
-        klass = args.fetch(:class, '')
-        data  = args.fetch(:data, nil)
+        id     = args.fetch(:id, nil)
+        klass  = args.fetch(:class, '')
+        data   = args.fetch(:data, nil)
+        active = klass.include? 'active'
 
-        li = content_tag :li, id: id, class: klass, data: data do
-          content_tag :a, href: "##{name}", role: 'tab', data: { toggle: 'tab' }, aria: { controls: name, expanded: false } do
+        li = content_tag(
+          :li,
+          id:    id,
+          class: klass,
+          data:  data
+        ) do
+          content_tag(
+            :a,
+            href: "##{name}",
+            role: 'tab',
+            data: { toggle: 'tab' },
+            aria: { controls: name, expanded: active }
+          ) do
             block_given? ? yield : name.to_s.titleize
           end
         end
 
         @items.push(li)
       end
+      # rubocop:enable Metrics/MethodLength
 
       # @description
       # - Used to render out the object and get the HTML representation.

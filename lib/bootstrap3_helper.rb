@@ -162,8 +162,8 @@ module Bootstrap3Helper
   #
   # @param [String|Symbol] name
   #
-  def icon_helper(name = '')
-    content_tag :span, '', class: 'glyphicon glyphicon-' + name.to_s
+  def icon_helper(name)
+    content_tag :span, '', class: "glyphicon glyphicon-#{name}"
   end
 
   # @description

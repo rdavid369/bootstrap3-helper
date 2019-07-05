@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = Bootstrap3Helper::VERSION
   s.authors     = ['Robert David']
   s.email       = ['rdavid369@gmail.com']
-  s.homepage    = 'https://github.com/rdavid369/bootstrap3-helper/blob/master/lib/bootstrap3_helper.rb'
+  s.homepage    = 'https://github.com/rdavid369/bootstrap3-helper'
   s.summary     = 'Simple gem for rapidly building bootstrap 3 components'
   s.description = 'Simple gem for rapidly building bootstrap 3 components'
   s.license     = 'MIT'

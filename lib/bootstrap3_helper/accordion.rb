@@ -67,16 +67,27 @@ module Bootstrap3Helper
     #
     # rubocop:disable Metrics/MethodLength
     def header(args = {})
-      id    = args.fetch(:id, nil)
-      klass = args.fetch(:class, '')
-      data  = args.fetch(:data, {})
+      id     = args.fetch(:id, nil)
+      klass  = args.fetch(:class, '')
+      data   = args.fetch(:data, {})
 
       data[:toggle] = 'collapse'
       data[:parent] = "##{@parent_id}"
 
-      @header = content_tag :div, id: id, class: 'panel-heading ' + klass do
+      @header = content_tag(
+        :div,
+        id:    id,
+        role:  'tab',
+        class: 'panel-heading ' + klass
+      ) do
         content_tag :h3, class: 'panel-title' do
-          content_tag :a, href: "##{@collapse_id}", data: data do
+          content_tag(
+            :a,
+            href: "##{@collapse_id}",
+            role: 'button',
+            data: data,
+            aria: { expanded: @expanded, controls: "##{@collapse_id}" }
+          ) do
             content = yield if block_given?
             content.to_s.html_safe
           end
@@ -104,19 +115,27 @@ module Bootstrap3Helper
     # @return [nilClass]
     #
     #
+    # rubocop:disable Metrics/MethodLength
     def body(args = {})
       klass = 'panel-collapse collapse '
       data  = args.fetch(:data, {})
       klass += args.fetch(:class, '')
       klass += ' in' if @expanded
 
-      @body = content_tag :div, id: @collapse_id, class: klass do
+      @body = content_tag(
+        :div,
+        id:    @collapse_id,
+        role:  'tabpanel',
+        class: klass,
+        aria:  { labelledby: "##{@collapse_id}" }
+      ) do
         content_tag :div, class: 'panel-body', data: data do
           content = yield if block_given?
           content.to_s.html_safe
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     # @description
     # - Creates the footer element for the accordion
