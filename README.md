@@ -115,22 +115,22 @@ end
     <% end %>
 
     <%= tabs.content do |content| %>
-        <% content.item :testing1, class: 'active' do %>
+        <% content.pane :testing1, class: 'active' do %>
             Testing 1 content
         <% end %>
-        <% content.item :testing2 do %>
+        <% content.pane :testing2 do %>
             Testing 2 content
         <% end %>
-        <% content.item :testing3 do %>
+        <% content.pane :testing3 do %>
             Testing 3 content
         <% end %>
-        <% content.item :testing5 do %>
+        <% content.pane :testing5 do %>
             Testing 5 content
         <% end %>
-        <% content.item :testing6 do %>
+        <% content.pane :testing6 do %>
             Testing 6 content
         <% end %>
-        <% content.item :testing7 do %>
+        <% content.pane :testing7 do %>
             Testing 7 content
         <% end %>
     <% end %>
