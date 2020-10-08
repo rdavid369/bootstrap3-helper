@@ -1,11 +1,8 @@
-# @root
-#
-#
-module Bootstrap3Helper
-  # @description
-  # - The Alert helper is meant to help you rapidly build Bootstrap Alert
+module Bootstrap3Helper # :nodoc:
+  # The Alert helper is meant to help you rapidly build Bootstrap Alert
   # components quickly and easily. The dissmiss button is optional.
   #
+  # @example Rendering a Bootstrap Alert Component in a view:
   #   <code>
   #     <%= alert_helper :warning, dismissable: true do %>
   #       <% if @model.errors.present? %>
@@ -17,33 +14,26 @@ module Bootstrap3Helper
   #   </code>
   #
   class Alert < Component
-    # @description
-    # - Used to generate Bootstrap alert components quickly.
+    # Used to generate Bootstrap alert components quickly.
     #
-    # @param [Class] template - Template in which your are binding too.
-    # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
-    # @param [Hash]  opts
-    #   <code>
-    #     opts = {
-    #       id:     [String] - ID of the alert box
-    #       class:  [String] - Additional classes for the alert box
-    #     }
-    #   </code>
-    # @param [Proc] &block
+    # @param  [Class] template Template in which your are binding too.
+    # @param  [NilClass|String|Symbol|Hash] Bootstrap class context, or options hash.
+    # @param  [Hash]  opts
+    # @option opts [String]  :id    The ID of the element
+    # @option opts [String]  :class Custom class for the component.
     # @return [Alert]
     #
     def initialize(template, context_or_options = nil, opts = {}, &block)
       super(template)
       @context, args = parse_arguments(context_or_options, opts)
 
-      @id = args.fetch(:id, nil)
-      @class = args.fetch(:class, '')
+      @id          = args.fetch(:id, nil)
+      @class       = args.fetch(:class, '')
       @dismissible = args.fetch(:dismissible, false)
-      @content = block || proc { '' }
+      @content     = block || proc { '' }
     end
 
-    # @description
-    # - The dissmiss button, if the element has one.
+    # The dissmiss button, if the element has one.
     #
     # @return [String]
     #
@@ -53,28 +43,26 @@ module Bootstrap3Helper
       end
     end
 
-    # @description
-    # - Used to render out the Alert component.
+    # Used to render out the Alert component.
     #
-    # @note
-    # - concat needs to be used to add the content of the button to the output
-    # buffer.  For some reason, if though the block returns a String, trying to
-    # add that string to the dismiss button string, returns with the dismiss
-    # button missing.  Was forced to caoncat the button to the current output
-    # buffer in order to get it to persist after the block call.
+    # @note Concat needs to be used to add the content of the button to the output
+    #   buffer.  For some reason, if though the block returns a String, trying to
+    #   add that string to the dismiss button string, returns with the dismiss
+    #   button missing.  Was forced to caoncat the button to the current output
+    #   buffer in order to get it to persist after the block call.
     #
     # @return [String]
     #
     def to_s
       content_tag :div, id: @id, class: container_class do
-        concat(@dismissible ? close_button : '') + @content.call
+        concat(@dismissible ? close_button : '')
+        @content.call(self)
       end
     end
 
     private
 
-    # @description
-    # - Used to get the container classes.
+    # Used to get the container classes.
     #
     # @return [String]
     #

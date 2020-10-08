@@ -1,77 +1,70 @@
-# @root
-#
-#
-module Bootstrap3Helper
-  # @description
-  # - This class is used to general groups of accordions.
+module Bootstrap3Helper # :nodoc:
+  # This class is used to general groups of accordions.
   #
-  # <code>
-  #   <%= accordion_group_helper do |group| %>
-  #     <%= group.accordion :primary do |accordion| %>
-  #         <%= accordion.header { "accordion 1" } %>
-  #         <%= accordion.body do %>
-  #             <p>This is accordion 1</p>
-  #         <% end %>
+  # @eample Rendering out an Accordion Group in template:
+  #   <code>
+  #     <%= accordion_group_helper do |group| %>
+  #       <%= group.accordion :primary do |accordion| %>
+  #           <%= accordion.header { "accordion 1" } %>
+  #           <%= accordion.body do %>
+  #               <p>This is accordion 1</p>
+  #           <% end %>
+  #       <% end %>
+  #       <%= group.accordion :info do |accordion| %>
+  #           <%= accordion.header { "accordion 2" } %>
+  #           <%= accordion.body do %>
+  #               <p>This is accordion 2</p>
+  #           <% end %>
+  #       <% end %>
+  #       <%= group.accordion :danger do |accordion| %>
+  #           <%= accordion.header { "accordion 3" } %>
+  #           <%= accordion.body do %>
+  #               <p>This is accordion 3</p>
+  #           <% end %>
+  #       <% end %>
   #     <% end %>
-  #     <%= group.accordion :info do |accordion| %>
-  #         <%= accordion.header { "accordion 2" } %>
-  #         <%= accordion.body do %>
-  #             <p>This is accordion 2</p>
-  #         <% end %>
-  #     <% end %>
-  #     <%= group.accordion :danger do |accordion| %>
-  #         <%= accordion.header { "accordion 3" } %>
-  #         <%= accordion.body do %>
-  #             <p>This is accordion 3</p>
-  #         <% end %>
-  #     <% end %>
-  #   <% end %>
-  # </code>
+  #   </code>
   #
   class AccordionGroup < Component
-    # @description
-    # - Used to initialize the main object.  This objects sole purpose is to
+    # Used to initialize the main object.  This objects sole purpose is to
     # generate a wrapper element with a distinct id and pass that id down to
     # all the child elements.
     #
-    def initialize(template, opts = {})
+    # @param [ActionView] template
+    # @param [Hash]       opts
+    # @option opts [String] :id
+    # @option opts [String] :class
+    # @option opts [Hash]   :data
+    #
+    def initialize(template, opts = {}, &block)
       super(template)
-      @accordions = []
-      @id = opts.fetch(:id, uuid)
-      @class = opts.fetch(:class, '')
+
+      @id      = opts.fetch(:id,    uuid)
+      @class   = opts.fetch(:class, '')
+      @data    = opts.fetch(:data,  {})
+      @content = block || proc { '' }
     end
 
-    # @description
-    # - This method is the main method for generating individual accordions.
+    # This method is the main method for generating individual accordions.
     # This is where you would pass in the html attributes.
     #
     # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
     # @param [Hash] opts
-    # <code>
-    #    args = {
-    #      id:      [String]
-    #      class:   [String]
-    #    }
-    # </code>
+    # @option args [String] id    The ID, if you want one, for the parent container
+    # @option args [String] class Custom class for the parent container
+    # @yieldparam accordion [Accordion]
     #
-    # @yields [Accordion] accordion
-    # @return [nilClass]
-    #
-    def accordion(context_or_options = nil, opts = {})
+    def accordion(context_or_options = nil, opts = {}, &block)
       if context_or_options.is_a?(Hash)
         context_or_options[:parent_id] = @id
       else
         opts[:parent_id] = @id
       end
 
-      accordion = Accordion.new(@template, context_or_options, opts)
-      yield accordion if block_given?
-
-      @accordions.push(accordion)
+      Accordion.new(@template, context_or_options, opts, &block)
     end
 
-    # @description
-    # - The to string method here is what is responsible for rendering out the
+    # The to string method here is what is responsible for rendering out the
     # entire accordion.  As long as the main method is rendered out in the helper,
     # you will get all the contents.
     #
@@ -79,10 +72,8 @@ module Bootstrap3Helper
     #
     def to_s
       content = content_tag :div, id: @id, class: "panel-group #{@class}" do
-        @accordions.map(&:to_s).join.html_safe
+        @content.call(self)
       end
-
-      content
     end
   end
 end
