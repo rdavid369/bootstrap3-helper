@@ -102,34 +102,37 @@ end
 `Tab Helper`
 
 ```erb
-<%= tabs_helper type: :pills do |menu, content| %>
-    <% menu.item(:testing1, class: 'active') { ' Testing 1' } %>
-    <% menu.item :testing2 %>
-    <% menu.item(:testing3) { ' Testing 3' } %>
-    <% menu.dropdown 'Testing Dropdown' do |dropdown| %>
-        <%= dropdown.item(:testing5 ) { 'Testing 5' } %>
-        <%= dropdown.item(:testing6 ) { 'Testing 6' } %>
-        <%= dropdown.item(:testing7 ) { 'Testing 7' } %>
+<%= tabs_helper type: :pills do |tabs| %>
+    <%= tabs.menu do |menu| %>
+        <%= menu.item(:testing1, class: 'active') { ' Testing 1' } %>
+        <%= menu.item :testing2 %>
+        <%= menu.item(:testing3) { ' Testing 3' } %>
+        <%= menu.dropdown 'Testing Dropdown' do |dropdown| %>
+            <%= dropdown.item(:testing5 ) { 'Testing 5' } %>
+            <%= dropdown.item(:testing6 ) { 'Testing 6' } %>
+            <%= dropdown.item(:testing7 ) { 'Testing 7' } %>
+        <% end %>
     <% end %>
 
-
-    <% content.item :testing1, class: 'active' do %>
-        Testing 1 content
-    <% end %>
-    <% content.item :testing2 do %>
-        Testing 2 content
-    <% end %>
-    <% content.item :testing3 do %>
-        Testing 3 content
-    <% end %>
-    <% content.item :testing5 do %>
-        Testing 5 content
-    <% end %>
-    <% content.item :testing6 do %>
-        Testing 6 content
-    <% end %>
-    <% content.item :testing7 do %>
-        Testing 7 content
+    <%= tabs.content do |content| %>
+        <% content.item :testing1, class: 'active' do %>
+            Testing 1 content
+        <% end %>
+        <% content.item :testing2 do %>
+            Testing 2 content
+        <% end %>
+        <% content.item :testing3 do %>
+            Testing 3 content
+        <% end %>
+        <% content.item :testing5 do %>
+            Testing 5 content
+        <% end %>
+        <% content.item :testing6 do %>
+            Testing 6 content
+        <% end %>
+        <% content.item :testing7 do %>
+            Testing 7 content
+        <% end %>
     <% end %>
 <% end %>
 ```
