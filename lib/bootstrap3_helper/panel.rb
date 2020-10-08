@@ -1,11 +1,7 @@
-# @root
-#
-#
-module Bootstrap3Helper
-  # @description
-  # - Used to rapidly build Bootstrap Panel Components.
+module Bootstrap3Helper # :nodoc:
+  # Used to rapidly build Bootstrap Panel Components.
   #
-  # <code>
+  # @example Rendering a Bootstrap Panel Component in a view:
   #   <%= panel_helper class: 'panel-primary' do |p| %>
   #     <%= p.header { "Some Title" }
   #     <%= p.body class: 'custom-class', id: 'custom-id' do %>
@@ -15,88 +11,85 @@ module Bootstrap3Helper
   #       //HTML or Ruby
   #     <% end %>
   #   <% end %>
-  # </code>
   #
   class Panel < Component
-    # @description
-    # - Creates a new Panel object.
+    # Creates a new Panel object.
     #
     # @param [Class] template - Template in which your are binding too.
     # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
     # @param [Hash]  opts
-    #   <code>
-    #     opts = {
-    #       id:     [String|NilClass] - The ID, if you want one, for the element.
-    #       class:  [String|NilClass] - Custom class for the element.
-    #     }
-    #   </code>
+    # @option opts [String]  :id    The ID of the element
+    # @option opts [String]  :class Custom class for the component.
+    # @option opts [Hash]    :data  Any data attributes for the element.
     # @return [Panel]
     #
-    def initialize(template, context_or_options = nil, opts = {})
+    def initialize(template, context_or_options = nil, opts = {}, &block)
       super(template)
       @context, args = parse_arguments(context_or_options, opts)
 
       @id      = args.fetch(:id, '')
       @class   = args.fetch(:class, '')
       @data    = args.fetch(:data, nil)
+      @content = block || proc { '' }
     end
 
-    # @description
-    # - Used to generate the header component for the panel.
+    # Used to generate the header component for the panel.
     #
     # @param [Hash] args
+    # @option args [String]  :id    The ID of the element
+    # @option args [String]  :class Custom class for the component.
+    # @yieldreturn [String]
     #
-    def header(args = {})
-      id = args.fetch(:id, '')
+    def header(args = {}, &block)
+      id    = args.fetch(:id, '')
       klass = args.fetch(:class, '')
-      @header = content_tag(:div, id: id, class: 'panel-heading ' + klass) do
-        content_tag(:h3, class: 'panel-title') { yield if block_given? }
+
+      content_tag(:div, id: id, class: 'panel-heading ' + klass) do
+        content_tag(:h3, class: 'panel-title', &block)
       end
     end
 
-    # @description
-    # - Used to generate the body component for the panel.
+    # Used to generate the body component for the panel.
     #
     # @param [Hash] args
+    # @option args [String]  :id    The ID of the element
+    # @option args [String]  :class Custom class for the component.
+    # @yieldreturn [String]
     #
-    def body(args = {})
-      id = args.fetch(:id, '')
+    def body(args = {}, &block)
+      id    = args.fetch(:id, '')
       klass = args.fetch(:class, '')
-      @body = content_tag(:div, id: id, class: 'panel-body ' + klass) do
-        yield if block_given?
-      end
+
+      content_tag(:div, id: id, class: 'panel-body ' + klass, &block)
     end
 
-    # @description
-    # - Used to generate the footer component for the panel.
+    # Used to generate the footer component for the panel.
     #
     # @param [Hash] args
+    # @option args [String]  :id    The ID of the element
+    # @option args [String]  :class Custom class for the component.
+    # @yieldreturn [String]
     #
-    def footer(args = {})
-      id = args.fetch(:id, '')
+    def footer(args = {}, &block)
+      id    = args.fetch(:id, '')
       klass = args.fetch(:class, '')
-      @footer = content_tag(:div, id: id, class: 'panel-footer ' + klass) do
-        yield if block_given?
-      end
+
+      content_tag(:div, id: id, class: 'panel-footer ' + klass, &block)
     end
 
-    # @description
-    # - Used to render the html for the entire panel object.
+    # Used to render the html for the entire panel object.
     #
     # @return [String]
     #
     def to_s
-      content = content_tag :div, id: @id, class: container_classes, data: @data do
-        @header + @body + @footer
+      content_tag :div, id: @id, class: container_classes, data: @data do
+        @content.call(self)
       end
-
-      content
     end
 
     private
 
-    # @description
-    # - Used to get the container css classes.
+    # Used to get the container css classes.
     #
     # @return [String]
     #

@@ -1,56 +1,44 @@
-# @description
-# - Root Object
-#
-module Bootstrap3Helper
+module Bootstrap3Helper # :nodoc:
   class Tabs
-    # @description
-    # - Used to rapidly generated Bootstrap Tabs Menu Components.
+    # Used to rapidly generated Bootstrap Tabs Menu Components.
     #
-    # <code>
-    #   <% menu.item(:testing3) { ' Testing 3' } %>
-    # </code>
+    # @example Rendering out a Tabs::Menu component:
+    #   <code>
+    #     <% menu.item(:testing3) { ' Testing 3' } %>
+    #   </code>
     #
     class Menu < Component
-      # @description
-      # - Creates a new Tabs::Menu object.
+      # Creates a new Tabs::Menu object.
       #
-      # @param [Class] template - Template in which your are binding too.
+      # @param [ActionView] template - Template in which your are binding too.
       # @param [Hash]  args
-      #   <code>
-      #     args = {
-      #       type:   [String|Symbol] - Used to tell the helper which tab version - :tabs|:pills
-      #       id:     [String|nilClass] - The ID, if you want one, for the parent container
-      #       class:  [String|nilClass] - Custom class for the parent container
-      #     }
-      #   </code>
+      # @option args [Symbol] type  Used to tell the helper which tab version :tabs|:pills
+      # @option args [String] id    The ID, if you want one, for the parent container
+      # @option args [String] class Custom class for the parent container
       #
-      def initialize(template, args = {})
+      def initialize(template, args = {}, &block)
         super(template)
 
-        @id    = args.fetch(:id, nil)
-        @class = args.fetch(:class, '')
-        @type  = args.fetch(:type, :tabs)
-        @items = []
+        @id      = args.fetch(:id, nil)
+        @class   = args.fetch(:class, '')
+        @type    = args.fetch(:type, :tabs)
+        @content = block || proc { '' }
       end
 
-      # @description
-      # - Adds a new menu item to the object.
-      #
-      # @note
-      # - You can opt out of passing in a block and the li will use the name attribute
-      # for the menu item.
-      #
-      # @param [String|Symbol] name - Used to link nav li to tab-content
-      # @param [Hash]  args
-      #   <code>
-      #     args = {
-      #       id:     [String|Symbol] - Custom ID for li element.
-      #       class:  [String|nilClass] - Custom class for the li element
-      #       data:   [Hash] - Any data attributes you wish to assign to li element.
-      #     }
-      #   </code>
-      #
       # rubocop:disable Metrics/MethodLength
+
+      # Adds a new menu item to the object.
+      #
+      # @note You can opt out of passing in a block and the li will use
+      #   the name attribute for the menu item.
+      #
+      # @param [String|Symbol] name Used to link nav li to tab-content
+      # @param [Hash]  args
+      # @option args [String] :id
+      # @option args [String] :class
+      # @option args [Hash]   :data
+      # @yieldreturn [String]
+      #
       def item(name, args = {})
         id     = args.fetch(:id, nil)
         data   = args.fetch(:data, nil)
@@ -75,42 +63,37 @@ module Bootstrap3Helper
             block_given? ? yield : name.to_s.titleize
           end
         end
-
-        @items.push(li)
       end
       # rubocop:enable Metrics/MethodLength
 
-      # @description
-      # - Used to create menu items that are Dropdowns
+      # Used to create menu items that are Dropdowns
       #
-      # @param [String|Symbol] name - 
+      # @param [String|Symbol] name
+      # @param [Hash] args
+      # @option args [String] :id
+      # @option args [String] :class
+      # @option args [Hash]   :data
+      # @yieldparam dropdown [Tabs::Dropdown]
       #
-      def dropdown(name, args = {})
-        id    = args.fetch(:id, nil)
-        data  = args.fetch(:data, nil)
-        klass = args.fetch(:class, '')
-
-        dropdown = Tabs::Dropdown.new(@template, name)
-        yield dropdown if block_given?
+      def dropdown(name, args = {}, &block)
+        id       = args.fetch(:id, nil)
+        data     = args.fetch(:data, nil)
+        klass    = args.fetch(:class, '')
+        dropdown = Tabs::Dropdown.new(@template, name, &block)
 
         content = content_tag :li, id: id, class: 'dropdown' + klass, data: data do
-          dropdown.to_s
+          dropdown.to_s.html_safe
         end
-
-        @items.push(content)
       end
 
-      # @description
-      # - Used to render out the contents of the menu.
+      # Used to render out the contents of the menu.
       #
       # @return [String]
       #
       def to_s
-        html = content_tag :ul, id: @id, class: "nav nav-#{@type} " + @class, role: 'tablist' do
-          @items.collect(&:to_s).join.html_safe
+        content_tag :ul, id: @id, class: "nav nav-#{@type} " + @class, role: 'tablist' do
+          @content.call(self)
         end
-
-        html
       end
     end
   end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bootstrap3_helper (1.0.1)
+    bootstrap3_helper (2.0.0)
       rails (>= 4.0)
 
 GEM
@@ -76,7 +76,7 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    rack (2.0.8)
+    rack (2.2.3)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.7.2)
@@ -127,7 +127,7 @@ GEM
       thread_safe (~> 0.1)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.4)
+    websocket-extensions (0.1.5)
 
 PLATFORMS
   ruby

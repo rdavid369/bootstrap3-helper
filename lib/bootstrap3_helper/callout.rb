@@ -1,47 +1,37 @@
-# @root
-#
-#
-module Bootstrap3Helper
-  # @description
-  # - Used to generate Bootstrap callout component quickly.
+module Bootstrap3Helper # :nodoc:
+  # Used to generate Bootstrap callout component quickly.
   #
-  # @param [Class] template - Template in which your are binding too.
-  # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
-  # @param [Hash]  opts
-  #   <code>
-  #     opts = {
-  #       id:     [String] - ID of the alert box
-  #       class:  [String] - Additional classes for the alert box
-  #     }
-  #   </code>
-  # @param [Proc] &block
-  # @return [Callout]
   #
   class Callout < Component
+    # @param  [Class] template - Template in which your are binding too.
+    # @param  [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
+    # @param  [Hash]  opts
+    # @option opts [String]  :id    The ID of the element
+    # @option opts [String]  :class Custom class for the component.
+    # @return [Callout]
+    #
     def initialize(template, context_or_options = nil, opts = {}, &block)
       super(template)
       @context, args = parse_arguments(context_or_options, opts)
 
-      @id = args.fetch(:id, nil)
-      @class = args.fetch(:class, '')
+      @id      = args.fetch(:id, nil)
+      @class   = args.fetch(:class, '')
       @content = block || proc { '' }
     end
 
-    # @description
-    # - Returns a string representation of the component.
+    # Returns a string representation of the component.
     #
     # @return [String]
     #
     def to_s
       content_tag :div, id: @id, class: container_class do
-        @content.call
+        @content.call(self)
       end
     end
 
     private
 
-    # @description
-    # - Used to get the container classes.
+    # Used to get the container classes.
     #
     # @return [String]
     #
