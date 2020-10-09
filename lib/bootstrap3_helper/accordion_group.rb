@@ -71,7 +71,7 @@ module Bootstrap3Helper # :nodoc:
     # @return [String]
     #
     def to_s
-      content = content_tag :div, id: @id, class: "panel-group #{@class}" do
+      content_tag :div, id: @id, class: "panel-group #{@class}" do
         @content.call(self)
       end
     end
