@@ -18,8 +18,8 @@ module Bootstrap3Helper # :nodoc:
     # AccordionGroup, we need to keep track of the parent element id, so we can
     # pass it down to the other components.
     #
-    # @param [Class] template - Template in which your are binding too.
-    # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
+    # @param [Class] template Template in which your are binding too.
+    # @param [NilClass|String|Symbol|Hash] context_or_options Bootstrap class context, or options hash.
     # @param [Hash] opts
     # @option opts [String]  :parent_id   The parent element ID if this accordion is part of a group.
     # @option opts [String]  :id          The ID of the element
@@ -47,10 +47,10 @@ module Bootstrap3Helper # :nodoc:
     #
     # @note NilClass :to_s  returns an empty String
     #
-    # @params [Hash] args
-    # @option opts [String] :id
-    # @option opts [String] :class
-    # @option opts [Hash]   :data
+    # @param [Hash] args
+    # @option args [String] :id
+    # @option args [String] :class
+    # @option args [Hash]   :data
     # @yieldreturn [String]
     #
     def header(args = {}, &block)
@@ -77,10 +77,10 @@ module Bootstrap3Helper # :nodoc:
     #
     # @note NilClass :to_s  returns an empty String
     #
-    # @params [Hash] args
-    # @option opts [String] :id
-    # @option opts [String] :class
-    # @option opts [Hash]   :data
+    # @param [Hash] args
+    # @option args [String] :id
+    # @option args [String] :class
+    # @option args [Hash]   :data
     # @yieldreturn [String]
     #
     def body(args = {}, &block)
@@ -101,10 +101,10 @@ module Bootstrap3Helper # :nodoc:
 
     # Creates the footer element for the accordion
     #
-    # @params [Hash] args
-    # @option opts [String] :id
-    # @option opts [String] :class
-    # @option opts [Hash]   :data
+    # @param [Hash] args
+    # @option args [String] :id
+    # @option args [String] :class
+    # @option args [Hash]   :data
     # @yieldreturn [String]
     #
     def footer(args = {}, &block)
@@ -118,7 +118,7 @@ module Bootstrap3Helper # :nodoc:
     # @return [String]
     #
     def to_s
-      content = content_tag :div, id: @id, class: container_classes do
+      content_tag :div, id: @id, class: container_classes do
         @content.call(self)
       end
     end

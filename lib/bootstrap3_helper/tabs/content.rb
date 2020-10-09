@@ -34,7 +34,7 @@ module Bootstrap3Helper # :nodoc:
         klass  = args.fetch(:class, '')
         active = klass.include? 'active'
 
-        content = content_tag(
+        content_tag(
           :div,
           id:       name,
           class:    "tab-pane fade #{active ? 'in' : ''} #{klass}",

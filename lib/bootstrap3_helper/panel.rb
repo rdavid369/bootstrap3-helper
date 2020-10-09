@@ -15,8 +15,8 @@ module Bootstrap3Helper # :nodoc:
   class Panel < Component
     # Creates a new Panel object.
     #
-    # @param [Class] template - Template in which your are binding too.
-    # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
+    # @param [ActionView] template Template in which your are binding too.
+    # @param [NilClass|String|Symbol|Hash] context_or_options Bootstrap class context, or options hash.
     # @param [Hash]  opts
     # @option opts [String]  :id    The ID of the element
     # @option opts [String]  :class Custom class for the component.

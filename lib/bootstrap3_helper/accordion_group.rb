@@ -1,7 +1,7 @@
 module Bootstrap3Helper # :nodoc:
   # This class is used to general groups of accordions.
   #
-  # @eample Rendering out an Accordion Group in template:
+  # @example Rendering out an Accordion Group in template:
   #   <code>
   #     <%= accordion_group_helper do |group| %>
   #       <%= group.accordion :primary do |accordion| %>
@@ -48,10 +48,10 @@ module Bootstrap3Helper # :nodoc:
     # This method is the main method for generating individual accordions.
     # This is where you would pass in the html attributes.
     #
-    # @param [NilClass|String|Symbol|Hash] - Bootstrap class context, or options hash.
+    # @param [NilClass|String|Symbol|Hash] context_or_options Bootstrap class context, or options hash.
     # @param [Hash] opts
-    # @option args [String] id    The ID, if you want one, for the parent container
-    # @option args [String] class Custom class for the parent container
+    # @option opts [String] id    The ID, if you want one, for the parent container
+    # @option opts [String] class Custom class for the parent container
     # @yieldparam accordion [Accordion]
     #
     def accordion(context_or_options = nil, opts = {}, &block)

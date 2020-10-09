@@ -15,7 +15,7 @@ module Bootstrap3Helper # :nodoc
     # Used to ensure that the helpers always have the propert context for
     # rendering and bindings.
     #
-    # @param [Class] template - the context of the bindings
+    # @param [ActionView] template the context of the bindings
     #
     def initialize(template)
       @template = template
@@ -46,7 +46,7 @@ module Bootstrap3Helper # :nodoc
     # binding. Concat adds a String to the template Output buffer.  Useful when
     # trying to add a String with no block.
     #
-    # @params [String] text
+    # @param [String] text
     #
     def concat(text)
       @template.concat(text)
@@ -57,7 +57,7 @@ module Bootstrap3Helper # :nodoc
     # contectual class.  So we will assign it to `default` and
     # return the Hash to be used as options.
     #
-    # @params [Hash|NilClass|String|Symbol] *args
+    # @param  [Hash|NilClass|String|Symbol] args
     # @return [Array]
     #
     def parse_arguments(*args)

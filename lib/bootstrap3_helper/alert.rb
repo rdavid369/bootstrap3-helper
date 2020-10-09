@@ -16,8 +16,8 @@ module Bootstrap3Helper # :nodoc:
   class Alert < Component
     # Used to generate Bootstrap alert components quickly.
     #
-    # @param  [Class] template Template in which your are binding too.
-    # @param  [NilClass|String|Symbol|Hash] Bootstrap class context, or options hash.
+    # @param  [ActionView] template Template in which your are binding too.
+    # @param  [NilClass|String|Symbol|Hash] context_or_options Bootstrap class context, or options hash.
     # @param  [Hash]  opts
     # @option opts [String]  :id    The ID of the element
     # @option opts [String]  :class Custom class for the component.
@@ -25,12 +25,12 @@ module Bootstrap3Helper # :nodoc:
     #
     def initialize(template, context_or_options = nil, opts = {}, &block)
       super(template)
-      @context, args = parse_arguments(context_or_options, opts)
 
-      @id          = args.fetch(:id, nil)
-      @class       = args.fetch(:class, '')
-      @dismissible = args.fetch(:dismissible, false)
-      @content     = block || proc { '' }
+      @context, args = parse_arguments(context_or_options, opts)
+      @id            = args.fetch(:id, nil)
+      @class         = args.fetch(:class, '')
+      @dismissible   = args.fetch(:dismissible, false)
+      @content       = block || proc { '' }
     end
 
     # The dissmiss button, if the element has one.

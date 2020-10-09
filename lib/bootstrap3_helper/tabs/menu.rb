@@ -19,9 +19,9 @@ module Bootstrap3Helper # :nodoc:
       def initialize(template, args = {}, &block)
         super(template)
 
-        @id      = args.fetch(:id, nil)
+        @id      = args.fetch(:id,    nil)
         @class   = args.fetch(:class, '')
-        @type    = args.fetch(:type, :tabs)
+        @type    = args.fetch(:type,  :tabs)
         @content = block || proc { '' }
       end
 
@@ -40,12 +40,12 @@ module Bootstrap3Helper # :nodoc:
       # @yieldreturn [String]
       #
       def item(name, args = {})
-        id     = args.fetch(:id, nil)
-        data   = args.fetch(:data, nil)
+        id     = args.fetch(:id,    nil)
+        data   = args.fetch(:data,  nil)
         klass  = args.fetch(:class, '')
         active = klass.include? 'active'
 
-        li = content_tag(
+        content_tag(
           :li,
           id:    id,
           class: klass,
@@ -81,7 +81,7 @@ module Bootstrap3Helper # :nodoc:
         klass    = args.fetch(:class, '')
         dropdown = Tabs::Dropdown.new(@template, name, &block)
 
-        content = content_tag :li, id: id, class: 'dropdown' + klass, data: data do
+        content_tag :li, id: id, class: 'dropdown' + klass, data: data do
           dropdown.to_s.html_safe
         end
       end
