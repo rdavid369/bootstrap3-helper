@@ -1,24 +1,13 @@
 module Bootstrap3Helper # :nodoc:
   # Used to generate Bootstrap Accordion objects.
   #
-  # @example Render out an Accordion component in a template:
-  #   <code>
-  #     <%= accordion_helper :primary do |accordion| %>
-  #         <%= accordion.header do %>
-  #             <span class="something">This is the heading....</span>
-  #         <% end %>
-  #         <%= accordion.body do %>
-  #             <p>This is the body of the accordion....</p>
-  #         <% end %>
-  #     <% end %>
-  #   </code>
   #
   class Accordion < Component
     # Initlize a new accordion object.  If this part of a parent element, i.e
     # AccordionGroup, we need to keep track of the parent element id, so we can
     # pass it down to the other components.
     #
-    # @param [Class] template Template in which your are binding too.
+    # @param [Class] template - Template in which your are binding too.
     # @param [NilClass|String|Symbol|Hash] context_or_options Bootstrap class context, or options hash.
     # @param [Hash] opts
     # @option opts [String]  :parent_id   The parent element ID if this accordion is part of a group.
@@ -30,7 +19,7 @@ module Bootstrap3Helper # :nodoc:
     #
     def initialize(template, context_or_options = nil, opts = {}, &block)
       super(template)
-      @context, args = parse_arguments(context_or_options, opts)
+      @context, args = parse_context_or_options(context_or_options, opts)
 
       @parent_id   = args.fetch(:parent_id, nil)
       @id          = args.fetch(:id, nil)
@@ -41,27 +30,27 @@ module Bootstrap3Helper # :nodoc:
       @panel       = Panel.new(@template, context_or_options, opts)
     end
 
-    # rubocop:disable Metrics/MethodLength
-
     # Creates the header element for the accordion
     #
-    # @note NilClass :to_s  returns an empty String
+    # @param  [Symbol|String|Hash|NilClass] tag_or_options
+    # @param  [Hash] opts
+    # @option opts [String] :id
+    # @option opts [String] :class
+    # @option opts [Hash]   :data
+    # @option opts [Hash]   :aria
+    # @return [String]
     #
-    # @param [Hash] args
-    # @option args [String] :id
-    # @option args [String] :class
-    # @option args [Hash]   :data
-    # @yieldreturn [String]
-    #
-    def header(args = {}, &block)
-      data          = args.fetch(:data, {})
+    def header(tag_or_options = nil, opts = {}, &block)
+      tag, args = parse_tag_or_options(tag_or_options, opts)
+
+      data          = {}
       data[:toggle] = 'collapse'
       data[:parent] = "##{@parent_id}" if @parent_id.present?
+      data[:target] = "##{@collapse_id}"
 
-      @panel.header(args) do
+      @panel.header(tag, args.merge!(config_for: :accordions)) do
         content_tag(
-          :a,
-          href: "##{@collapse_id}",
+          :span,
           role: 'button',
           data: data,
           aria: { expanded: @expanded, controls: "##{@collapse_id}" },
@@ -69,9 +58,21 @@ module Bootstrap3Helper # :nodoc:
         )
       end
     end
-    # rubocop:enable Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength
+    # Builds a title component for the accordion header.
+    #
+    # @param  [Symbol|String|Hash|NilClass] tag_or_options
+    # @param  [Hash] opts
+    # @option opts [String] :id
+    # @option opts [String] :class
+    # @option opts [Hash]   :data
+    # @option opts [Hash]   :aria
+    # @return [String]
+    #
+    def title(tag_or_options = nil, opts = {}, &block)
+      tag, args = parse_tag_or_options(tag_or_options, opts)
+      @panel.title(tag, args.merge!(config_for: :accordions), &block)
+    end
 
     # Creates the body element for the accordion.
     #
@@ -83,7 +84,9 @@ module Bootstrap3Helper # :nodoc:
     # @option args [Hash]   :data
     # @yieldreturn [String]
     #
-    def body(args = {}, &block)
+    def body(tag_or_options = nil, opts = {}, &block)
+      tag, args = parse_tag_or_options(tag_or_options, opts)
+
       klass = 'panel-collapse collapse '
       klass += ' in' if @expanded
 
@@ -94,10 +97,9 @@ module Bootstrap3Helper # :nodoc:
         class: klass,
         aria:  { labelledby: "##{@collapse_id}" }
       ) do
-        @panel.body(args, &block)
+        @panel.body(tag, args.merge!(config_for: :accordions), &block)
       end
     end
-    # rubocop:enable Metrics/MethodLength
 
     # Creates the footer element for the accordion
     #
@@ -105,10 +107,11 @@ module Bootstrap3Helper # :nodoc:
     # @option args [String] :id
     # @option args [String] :class
     # @option args [Hash]   :data
-    # @yieldreturn [String]
+    # @return [String]
     #
-    def footer(args = {}, &block)
-      @panel.footer(args, &block)
+    def footer(tag_or_options = nil, opts = {}, &block)
+      tag, args = parse_tag_or_options(tag_or_options, opts)
+      @panel.footer(tag, args.merge!(config_for: :accordions), &block)
     end
 
     # The to string method here is what is responsible for rendering out the

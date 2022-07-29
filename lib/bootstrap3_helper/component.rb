@@ -60,11 +60,43 @@ module Bootstrap3Helper # :nodoc
     # @param  [Hash|NilClass|String|Symbol] args
     # @return [Array]
     #
-    def parse_arguments(*args)
+    def parse_context_or_options(*args)
+      parse_arguments(*args, 'default')
+    end
+
+    # Used to parse method arguments.  If the first argument is
+    # a Hash, then it is assumed that the user left off the tag
+    # element.  So we will assign it to <tt>NilClass</tt> and
+    # return the Hash to be used as options.
+    #
+    # @param  [Hash|NilClass|String|Symbol] args
+    # @return [Array]
+    #
+    def parse_tag_or_options(*args)
+      parse_arguments(*args, nil)
+    end
+
+    # Used to parse method arguments.  If the first argument is
+    # a Hash, then it is assumed that the user left off the bootstrap
+    # contectual class.  So we will assign it to `default` and
+    # return the Hash to be used as options.
+    #
+    # @overload parse_arguments(param_or_options, options, default)
+    #   @param [NilClass|Hash|Symbol|String] param_or_options
+    #   @param [Hash] options
+    #   @param [NilClass|String|Symbol] default
+    #
+    # @overload parse_arguments(options, default)
+    #   @param [Hash] options
+    #   @param [NilClass|String|Symbol] default
+    #
+    # @return [Array]
+    #
+    def parse_arguments(*args, default)
       first, second = *args
       case first
       when Hash, NilClass
-        ['default', first || second]
+        [default, first || second]
       when Symbol, String
         [first, second]
       end
@@ -77,6 +109,26 @@ module Bootstrap3Helper # :nodoc
     #
     def uuid
       (0...10).map { rand(65..90).chr }.join
+    end
+
+    # Used to get config settings inside of components quicker.
+    #
+    # @param  [Symbol|String|Hash] setting
+    # @return [Mixed]
+    #
+    def config(setting, fallback)
+      object = Bootstrap3Helper.config
+
+      value  = (
+        case setting
+        when Hash
+          object.send(setting.keys[0])[setting.values[0]] if object.send(setting.keys[0])
+        when Symbol, String
+          object.send(setting) if object.respond_to?(setting)
+        end
+      )
+
+      value || fallback
     end
   end
 end

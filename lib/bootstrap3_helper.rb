@@ -1,4 +1,6 @@
 require 'bootstrap3_helper/version'
+require 'bootstrap3_helper/configuration'
+require 'bootstrap3_helper/initialize'
 
 # Implementation files
 require 'bootstrap3_helper/component'
@@ -17,66 +19,6 @@ require 'bootstrap3_helper/railtie'
 # common Bootstrap components.
 #
 module Bootstrap3Helper
-  # Allows you to rapidly build Panel components.
-  #
-  # @example Bootstrap Panel Component:
-  #   <%= panel_helper :primary do |p| %>
-  #     <%= p.header { "Some Title" }
-  #     <%= p.body class: 'custom-class', id: 'custom-id' do %>
-  #       //HTML or Ruby code here...
-  #     <% end %>
-  #     <%= p.footer do %>
-  #       //HTML or Ruby
-  #     <% end %>
-  #   <% end %>
-  #
-  # @param  [Symbol|String|Hash|NilClass] args
-  # @yieldparam [Panel] panel
-  # @return [String]
-  #
-  def panel_helper(*args, &block)
-    Panel.new(self, *args, &block)
-  end
-
-  # Creates an Alert component.
-  #
-  # @example Bootstrap Alert Component:
-  #   <%= alert_helper :danger, dismissble: true do %>
-  #     Something went wrong with your model data...
-  #   <% end %>
-  #
-  # @param  [Symbol|String|Hash|NilClass] args
-  # @yieldreturn [String]
-  # @return [String]
-  #
-  def alert_helper(*args, &block)
-    Alert.new(self, *args, &block)
-  end
-
-  # Creates an Callout component.
-  #
-  # @example Bootstrap Callout Component:
-  #   <%= callout_helper :danger %>
-  #     Some information that needs your attention...
-  #   <% end %>
-  #
-  # @param  [Symbol|String|Hash|NilClass] args
-  # @yieldreturn [String]
-  # @return [String]
-  #
-  def callout_helper(*args, &block)
-    Callout.new(self, *args, &block)
-  end
-
-  # Just a easy way of checking if the environment is a devbox
-  # or a server.
-  #
-  # @return [Boolean]
-  #
-  def host_is_dev_pc?
-    Rails.root.to_s.include?('home')
-  end
-
   # Easily build a bootstrap accordion group component.
   #
   # @note All the element ids and data attributes needed to make the javascript
@@ -84,6 +26,7 @@ module Bootstrap3Helper
   #   You don't need to worry about them.
   #
   # @example Bootstrap Accordion Group Component:
+  #   ```erb
   #   <%= accordion_group_helper do |group| %>
   #     <% group.accordion class: 'primary' do |accordion| %>
   #         <%= accordion.header { "accordion 1" } %>
@@ -104,18 +47,22 @@ module Bootstrap3Helper
   #         <% end %>
   #     <% end %>
   #   <% end %>
+  #   ```
   #
-  # @param  [Symbol|String|Hash|NilClass] args
+  # @param  [Hash] opts
+  # @option opts [String] :id
+  # @option opts [String] :class
   # @yieldparam [AccordionGroup] group
   # @return [String]
   #
-  def accordion_group_helper(*args, &block)
-    AccordionGroup.new(self, *args, &block)
+  def accordion_group_helper(opts = {}, &block)
+    AccordionGroup.new(self, opts, &block)
   end
 
   # Easily build a bootstrap accordion component
   #
   # @example Bootstrap Panel Component:
+  #   ```erb
   #   <%= accordion_helper class: 'primary' do |accordion| %>
   #       <%= accordion.header do %>
   #           <span class="something">This is the heading....</span>
@@ -124,13 +71,77 @@ module Bootstrap3Helper
   #           <p>This is the body of the accordion....</p>
   #       <% end %>
   #   <% end %>
+  #   ```
   #
-  # @param  [Symbol|String|Hash|NilClass] args
+  # @overload accordion_helper(context, opts)
+  #   @param  [Symbol|String] context - :primary, :danger etc
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #
+  # @overload accordion_helper(opts)
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #
   # @yieldparam [Accordion] accordion
   # @return [String]
   #
   def accordion_helper(*args, &block)
     Accordion.new(self, *args, &block)
+  end
+
+  # Creates an Alert component.
+  #
+  # @example Bootstrap Alert Component:
+  #   ```erb
+  #   <%= alert_helper :danger, dismissble: true do %>
+  #     Something went wrong with your model data...
+  #   <% end %>
+  #   ```
+  #
+  # @overload alert_helper(context, opts)
+  #   @param  [Symbol|String] context - :primary, :danger etc
+  #   @param  [Hash] opts
+  #   @option opts [String]  :id
+  #   @option opts [String]  :class
+  #   @option opts [Boolean] :dismissible
+  #
+  # @overload alert_helper(opts)
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #
+  # @return [String]
+  #
+  def alert_helper(*args, &block)
+    Alert.new(self, *args, &block)
+  end
+
+  # Creates an Callout component.
+  #
+  # @example Bootstrap Callout Component:
+  #   ```erb
+  #   <%= callout_helper :danger %>
+  #     Some information that needs your attention...
+  #   <% end %>
+  #   ```
+  #
+  # @overload callout_helper(context, opts)
+  #   @param  [Symbol|String] context - :primary, :danger etc
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #
+  # @overload callout_helper(opts)
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #
+  # @return [String]
+  #
+  def callout_helper(*args, &block)
+    Callout.new(self, *args, &block)
   end
 
   # Allows you to rapidly build bootstrap glyphs.
@@ -144,6 +155,42 @@ module Bootstrap3Helper
   #
   def icon_helper(name)
     content_tag :span, '', class: "glyphicon glyphicon-#{name}"
+  end
+
+  # Allows you to rapidly build Panel components.
+  #
+  # @example Bootstrap Panel Component:
+  #   ```erb
+  #   <%= panel_helper :default do |p| %>
+  #     <%= p.header do %>
+  #       <%= p.title { 'Some random text here' } %>
+  #     <% end %>
+  #     <%= p.body do %>
+  #       //HTML & Ruby
+  #     <% end %>
+  #   <% end %>
+  #   ```
+  #
+  # @overload panel_helper(context, opts)
+  #   @param  [String|Symbol] context - :primary, :danger etc
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #   @option opts [Hash]   :data
+  #   @option opts [Hash]   :aria
+  #
+  # @overload panel_helper(opts)
+  #   @param  [Hash] opts
+  #   @option opts [String] :id
+  #   @option opts [String] :class
+  #   @option opts [Hash]   :data
+  #   @option opts [Hash]   :aria
+  #
+  # @yieldparam [Panel] panel
+  # @return [String]
+  #
+  def panel_helper(*args, &block)
+    Panel.new(self, *args, &block)
   end
 
   # Used to rapidly build Tabs.
@@ -167,7 +214,7 @@ module Bootstrap3Helper
   #           <%= dropdown.item(:testing7 ) { 'Testing 7' } %>
   #       <% end %>
   #     <% end %>
-  # 
+  #
   #     <%= tabs.content do |content| %>
   #       <%= content.pane :testing1, class: 'active' do %>
   #           Testing 1 content
@@ -190,11 +237,14 @@ module Bootstrap3Helper
   #     <% end %>
   #   <% end %>
   #
-  # @param  [Symbol|String|Hash|NilClass] args
+  # @param  [Hash] opts
+  # @option args [String|Symbol] :type
+  # @option args [String]        :id
+  # @option args [String]        :class
   # @yieldparam [Tabs] tabs
   # @return [String]
   #
-  def tabs_helper(args = {}, &block)
-    Tabs.new(self, args, &block)
+  def tabs_helper(opts = {}, &block)
+    Tabs.new(self, opts, &block)
   end
 end

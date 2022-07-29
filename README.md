@@ -20,12 +20,42 @@ Or install it yourself as:
 
 ## Usage
 
-`Panel Helper`
+### Panel Helper
+
+Panels supper the following methods:
+
+- body
+- heaader
+- footer
+- title
+
+```ruby
+# @overload panel_helper(context, opts)
+#   @param  [String|Symbol] context - :primary, :danger etc
+#   @param  [Hash] opts
+#   @option opts [String] :id
+#   @option opts [String] :class
+#   @option opts [Hash]   :data
+#   @option opts [Hash]   :aria
+#
+# @overload panel_helper(opts)
+#   @param  [Hash] opts
+#   @option opts [String] :id
+#   @option opts [String] :class
+#   @option opts [Hash]   :data
+#   @option opts [Hash]   :aria
+#
+# @yieldparam [Panel] panel
+# @return [String]
+```
+
+#### Example
 
 ```erb
 <%= panel_helper :primary do |p| %>
   <%= p.header id: 'optional-id', class: 'any-optional-extra-classes' do %>
-    Some Header for your panel
+    <%= p.header { 'Optional header title' }  %>
+    <p>Non styled content for header...</p>
   <% end %>
   <%= p.body id: 'optional-id', class: 'any-optional-extra-classes' do %>
      All your custom HTML or Ruby.  You can render blocks here, whatever

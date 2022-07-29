@@ -48,11 +48,11 @@ module Bootstrap3Helper # :nodoc:
     # This method is the main method for generating individual accordions.
     # This is where you would pass in the html attributes.
     #
-    # @param [NilClass|String|Symbol|Hash] context_or_options Bootstrap class context, or options hash.
+    # @param [NilClass|String|Symbol|Hash] context_or_options
     # @param [Hash] opts
-    # @option opts [String] id    The ID, if you want one, for the parent container
-    # @option opts [String] class Custom class for the parent container
-    # @yieldparam accordion [Accordion]
+    # @option opts [String] :id
+    # @option opts [String] :class
+    # @yieldreturn [Accordion] accordion
     #
     def accordion(context_or_options = nil, opts = {}, &block)
       if context_or_options.is_a?(Hash)

@@ -21,7 +21,7 @@ module Bootstrap3Helper # :nodoc:
         super(template)
 
         @name    = name
-        @content = block || proc { '' } 
+        @content = block || proc { '' }
       end
 
       # rubocop:disable Metrics/MethodLength
@@ -76,7 +76,7 @@ module Bootstrap3Helper # :nodoc:
           data: { toggle: 'dropdown' }, aria: { expanded: false }
         )
 
-        content += content_tag :ul, id: @id, class: 'dropdown-menu ' do
+        content + content_tag(:ul, id: @id, class: 'dropdown-menu ') do
           @content.call(self)
         end
       end

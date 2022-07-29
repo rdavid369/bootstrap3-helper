@@ -2,17 +2,6 @@ module Bootstrap3Helper # :nodoc:
   # The Alert helper is meant to help you rapidly build Bootstrap Alert
   # components quickly and easily. The dissmiss button is optional.
   #
-  # @example Rendering a Bootstrap Alert Component in a view:
-  #   <code>
-  #     <%= alert_helper :warning, dismissable: true do %>
-  #       <% if @model.errors.present? %>
-  #         <p>Some kind of error</p>
-  #       <% end %>
-  #     <% end %>
-  #
-  #     <%= alert_helper(:success, dismissible: true) { "Successful save"}
-  #   </code>
-  #
   class Alert < Component
     # Used to generate Bootstrap alert components quickly.
     #
@@ -26,7 +15,7 @@ module Bootstrap3Helper # :nodoc:
     def initialize(template, context_or_options = nil, opts = {}, &block)
       super(template)
 
-      @context, args = parse_arguments(context_or_options, opts)
+      @context, args = parse_context_or_options(context_or_options, opts)
       @id            = args.fetch(:id, nil)
       @class         = args.fetch(:class, '')
       @dismissible   = args.fetch(:dismissible, false)
@@ -38,7 +27,12 @@ module Bootstrap3Helper # :nodoc:
     # @return [String]
     #
     def close_button
-      content_tag(:button, class: 'close', data: { dismiss: 'alert' }, aria: { label: 'Close' }) do
+      content_tag(
+        :button,
+        class: 'close',
+        data:  { dismiss: 'alert' },
+        aria:  { label: 'Close' }
+      ) do
         content_tag(:span, aria: { hidden: true }) { '&times;'.html_safe }
       end
     end
