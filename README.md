@@ -18,9 +18,7 @@ Or install it yourself as:
 
     $ gem install bootstrap3_helper
 
-## Usage
-
-### Panel Helper
+## Panel Helper
 
 Panels supper the following methods:
 
@@ -67,9 +65,25 @@ Panels supper the following methods:
 end
 ```
 
----
+## Alert Helper
 
-`Alert Helper`
+```ruby
+# @overload alert_helper(context, opts)
+#   @param  [Symbol|String] context - :primary, :danger etc
+#   @param  [Hash] opts
+#   @option opts [String]  :id
+#   @option opts [String]  :class
+#   @option opts [Boolean] :dismissible
+#
+# @overload alert_helper(opts)
+#   @param  [Hash] opts
+#   @option opts [String] :id
+#   @option opts [String] :class
+#
+# @return [String]
+```
+
+### Example
 
 ```erb
 <%= alert_helper :success { 'Some success message' } %>
@@ -81,12 +95,28 @@ end
 <% end %>
 ```
 
----
+## Acordion Helper
 
-`Accordion Helper`
+```ruby
+# @overload accordion_helper(context, opts)
+#   @param  [Symbol|String] context - :primary, :danger etc
+#   @param  [Hash] opts
+#   @option opts [String] :id
+#   @option opts [String] :class
+#
+# @overload accordion_helper(opts)
+#   @param  [Hash] opts
+#   @option opts [String] :id
+#   @option opts [String] :class
+#
+# @yieldparam [Accordion] accordion
+# @return [String]
+```
+
+### Example
 
 ```erb
-<%= accordion_helper :primary, { class: 'optional-class', id: 'optional_id', collapse_id: 'optional_collapse_id', expanded: true } do |accordion| %>
+<%= accordion_helper :primary, id: 'optional_id', expanded: true do |accordion| %>
     <%= accordion.header do %>
         <span class="something">This is the heading....</span>
     <% end %>
@@ -96,11 +126,19 @@ end
 <% end %>
 ```
 
-**Note:** the accordion helper handles all the attributes and data attributes needed to sync up the javascript in order to give the component its functionality. You just worry about about the class or state of the component. The helper does the rest. But if you do want to control the collapse ID and syncing, `collapse_id` is the attribute you are looking for.
+**Note:** the accordion helper handles all the attributes and data attributes needed to sync up the javascript in order to give the component its functionality. You just worry about about the class or state of the component. The helper does the rest. But if you do want to control the collapse ID and syncing, `collapse_id` is the parameter you are looking for.
 
----
+## Accordion Group
 
-`AccordionGroup Helper`
+```ruby
+# @param  [Hash] opts
+# @option opts [String] :id
+# @option opts [String] :class
+# @yieldparam [AccordionGroup] group
+# @return [String]
+```
+
+### Example
 
 ```erb
 <%= accordion_group_helper do |g| %>
@@ -125,11 +163,25 @@ end
 <% end %>
 ```
 
-**Note:** the accordion_group helper handles all the attributes and data attributes needed to sync up the javascript in order to give the component its functionality. You just worry about about the class or state of the individual accordions. The helper does the rest.
+## Tab Helper
 
----
+Tabs respond to the following methods:
 
-`Tab Helper`
+- menu
+  - item (Used for linking to tab content)
+  - dropdown (Used for making dropdown menus)
+- content
+
+```ruby
+# @param  [Hash] opts
+# @option args [String|Symbol] :type - :tabs, :pills
+# @option args [String]        :id
+# @option args [String]        :class
+# @yieldparam [Tabs] tabs
+# @return [String]
+```
+
+### Example
 
 ```erb
 <%= tabs_helper type: :pills do |tabs| %>
