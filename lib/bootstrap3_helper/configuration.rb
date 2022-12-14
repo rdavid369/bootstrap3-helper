@@ -7,14 +7,14 @@ module Bootstrap3Helper
   #
   class Configuration
     DEFAULT_SETTINGS = {
-      autoload_in_all_views: true,
-      accodions:             {
+      autoload_in_views: true,
+      accodions:         {
         header: :div,
         body:   :div,
         footer: :div,
         title:  :h4
       },
-      panels:                {
+      panels:            {
         header: :div,
         body:   :div,
         footer: :div,
@@ -30,7 +30,15 @@ module Bootstrap3Helper
     # @return [ClassName]
     #
     def initialize(_args = {})
-      @autoload_in_all_views = true
+      DEFAULT_SETTINGS.each { |key, value| instance_variable_set("@#{key}", value) }
+    end
+
+    # Simple predicate method
+    #
+    # @return [Boolean]
+    #
+    def autoload_in_views?
+      @autoload_in_views
     end
   end
 end

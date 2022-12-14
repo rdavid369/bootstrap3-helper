@@ -1,3 +1,7 @@
+## 2022-12-14 (3.0.1)
+
+-- Updated to allow the config object to actually be configured.
+
 ## 2022-07-29 (3.0.0)
 
 - Updated components to support optional dom tags for building sub elements.

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bootstrap3_helper (3.0.0)
+    bootstrap3_helper (3.0.1)
       rails (>= 4.0)
 
 GEM
